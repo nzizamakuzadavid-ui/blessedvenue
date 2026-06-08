@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blessed Venue Multi-Purposed Hall</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* =========================================
+           GLOBAL THEME & ANIMATIONS
+        ========================================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #000000, #1a002c, #0a0014, #2d004d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        /* =========================================
+           HEADER & NAVIGATION
+        ========================================= */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(123, 31, 162, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .tab-link {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid transparent;
+        }
+
+        .tab-link:hover, .tab-link.active {
+            background: linear-gradient(90deg, #7b1fa2, #4a148c);
+            border: 1px solid #d500f9;
+            box-shadow: 0 0 15px rgba(213, 0, 249, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Administration Tab Styling Overrides */
+        .admin-tab-btn {
+            background: linear-gradient(90deg, #ff8c00, #ff5722) !important;
+            border: 1px solid #ffb74d !important;
+            box-shadow: 0 0 12px rgba(255, 140, 0, 0.4);
+            color: #ffffff !important;
+        }
+        
+        .admin-tab-btn:hover, .admin-tab-btn.active {
+            background: linear-gradient(90deg, #ff5722, #e65100) !important;
+            border: 1px solid #ff8c00 !important;
+            box-shadow: 0 0 20px rgba(255, 87, 34, 0.7) !important;
+        }
+
+        .staff-subtext {
+            display: block;
+            font-size: 0.65rem;
+            color: #ffe0b2;
+            text-transform: none;
+            font-weight: 400;
+            letter-spacing: 0px;
+            margin-top: 2px;
+        }
+
+        /* Top Right Logo Construction */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-placeholder {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background-image: url('https://i.ibb.co/YBFL9QmG/blessed-venue-logo.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), inset 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 5px;
+            transition: transform 0.5s ease;
+        }
+        .logo-placeholder:hover {
+            transform: rotate(360deg);
+        }
+
+        /* =========================================
+           FLOATING SOCIAL WIDGETS
+        ========================================= */
+        .side-socials {
+            position: fixed;
+            left: 20px;
+            bottom: 40%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 999;
+        }
+
+        .side-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        
+        .side-icon::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulseGlow 2s infinite;
+        }
+
+        .side-insta { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .side-insta::before { background: linear-gradient(45deg, #f09433, #bc1888); opacity: 0.5; }
+        
+        .side-whatsapp { background-color: #25D366; }
+        .side-whatsapp::before { background: #25D366; opacity: 0.5; }
+
+        .side-icon:hover { transform: scale(1.1) translateY(-5px); }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.15); opacity: 0; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        /* =========================================
+           LAYOUT & TAB LOGIC
+        ========================================= */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active {
+            display: block;
+            animation: slideUpFade 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =========================================
+           IMAGE PLACEHOLDERS & CAROUSELS
+        ========================================= */
+        .image-placeholder {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.5);
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            margin: 25px 0;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .image-placeholder::after {
+            content: '\f03e';
+            font-family: 'FontAwesome';
+            position: absolute;
+            font-size: 4rem;
+            opacity: 0.1;
+        }
+
+        /* Utility classes for injected backgrounds */
+        .has-bg {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            border: none !important;
+            color: transparent !important;
+        }
+        .has-bg::after { display: none !important; }
+
+        /* Dynamic Zoom-in and Zoom-out Effect Applied to Static Top Banners */
+        .static-banner { 
+            height: 350px; 
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
+        }
+        .static-banner:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(213, 0, 249, 0.35);
+        }
+
+        .static-box { height: 250px; }
+
+        .carousel-container {
+            width: 100%;
+            height: 450px;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 50px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border: 1px solid rgba(123, 31, 162, 0.3);
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top:0; left:0; width: 100%; height: 100%;
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 5px;
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease;
+            transform: scale(1.05);
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-slide.active { opacity: 1; transform: scale(1); }
+
+        .slide1 { background-image: url('https://i.ibb.co/cS7Yg5qv/Whats-App-Image-2026-05-26-at-4-28-58-AM.jpg'); }
+        .slide2 { background-image: url('https://i.ibb.co/v6DPfnh5/Whats-App-Image-2026-05-28-at-2-02-55-AM.jpg'); }
+        .slide3 { background-image: url('https://i.ibb.co/39CMs0fP/Whats-App-Image-2026-05-18-at-5-38-52-AM.jpg'); }
+        .slide4 { background-image: url('https://i.ibb.co/zWf4fxyp/Whats-App-Image-2026-05-26-at-4-24-40-AM.jpg'); }
+        .slide5 { background-image: url('https://i.ibb.co/35LCrW4s/Whats-App-Image-2026-05-26-at-4-32-30-AM.jpg'); }
+
+        /* Marquee for Moving Photos on Home Tab */
+        .marquee-container {
+            width: 100%; overflow: hidden; padding: 30px 0; background: rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px; position: relative;
+        }
+        .marquee-container::before, .marquee-container::after {
+            content: ''; position: absolute; top: 0; width: 100px; height: 100%; z-index: 2;
+        }
+        .marquee-container::before { left: 0; background: linear-gradient(to right, #000, transparent); }
+        .marquee-container::after { right: 0; background: linear-gradient(to left, #000, transparent); }
+        .marquee-content { display: flex; gap: 25px; width: max-content; animation: scrollMarquee 30s linear infinite; }
+        .marquee-box { width: 280px; height: 180px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); transition: transform 0.3s ease; position: relative; overflow: hidden; }
+        .marquee-box:hover { transform: scale(1.05); border-color: #d500f9; }
+        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* =========================================
+           PACKAGE CARDS & BUTTONS
+        ========================================= */
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .package-card {
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .pkg-normal { border-top: 4px solid #FF8C00; }
+        .pkg-normal:hover { box-shadow: 0 10px 40px rgba(255, 140, 0, 0.2); }
+        
+        .pkg-advanced { border-top: 4px solid #FF0000; }
+        .pkg-advanced:hover { box-shadow: 0 10px 40px rgba(255, 0, 0, 0.2); }
+
+        .pkg-title-orange { color: #FF8C00; font-weight: 800; font-size: 1.8rem; text-shadow: 0 0 10px rgba(255,140,0,0.5); }
+        .pkg-title-red { color: #FF0000; font-weight: 800; font-size: 1.8rem; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+        
+        .big-bold-price {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+            display: block;
+        }
+
+        .services-list { margin: 25px 0; list-style: none; }
+        .services-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+        }
+        .services-list li::before {
+            content: '\f058';
+            font-family: 'FontAwesome';
+            color: #00ff00;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .btn-red {
+            display: block;
+            width: 100%;
+            background: linear-gradient(45deg, #cc0000, #ff0000);
+            color: #ffffff;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+        }
+        .btn-red:hover {
+            background: linear-gradient(45deg, #ff0000, #ff3333);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.6);
+        }
+
+        /* =========================================
+           MINI EVENTS 
+        ========================================= */
+        .mini-events-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mini-block {
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 16px;
+            transition: transform 0.3s ease;
+        }
+        .mini-block:hover { transform: translateY(-5px); }
+
+        .circle-pic-placeholder {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            border: 2px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px auto;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .bg-blue-write-white {
+            background: linear-gradient(135deg, #0000cc, #0000ff);
+            box-shadow: 0 10px 30px rgba(0, 0, 255, 0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .bg-dark-green-text {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid #00ff00;
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.1);
+        }
+        .text-green { color: #00FF00 !important; text-shadow: 0 0 10px rgba(0,255,0,0.5); }
+
+        /* =========================================
+           EVENTS STYLING COMPONENTS FROM HTML 2
+        ========================================= */
+        .blue-title-bar {
+            background: linear-gradient(90deg, #0000FF, #0055ff);
+            color: #ffffff;
+            padding: 15px 25px;
+            margin: 40px 0 20px 0;
+            font-size: 1.6rem;
+            font-weight: 800;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 255, 0.4);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .event-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 15px;
+        }
+
+        .btn-rect-green {
+            display: inline-block;
+            background: #00FF00;
+            color: #000000;
+            padding: 12px 30px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0,255,0,0.4);
+        }
+        .btn-rect-green:hover {
+            background: #00cc00;
+            box-shadow: 0 0 25px rgba(0,255,0,0.8);
+            transform: scale(1.05);
+        }
+
+        /* =========================================
+           DYNAMIC CALENDAR STYLES
+        ========================================= */
+        .calendar-section {
+            padding: 40px;
+            margin-top: 30px;
+            border-top: 2px solid #d500f9;
+        }
+        
+        .calendar-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .calendar-controls select {
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.8);
+            color: #d500f9;
+            border: 1px solid #d500f9;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .calendar-controls select:hover {
+            box-shadow: 0 0 15px rgba(213,0,249,0.4);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .calendar-day-header {
+            font-weight: 800;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            color: #ffd700;
+        }
+
+        .calendar-day {
+            padding: 20px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 85px;
+        }
+
+        .calendar-day.empty {
+            background: transparent;
+            border: none;
+            cursor: default;
+        }
+
+        .calendar-day:not(.empty):hover {
+            background: rgba(0,255,0,0.1);
+            border-color: #00ff00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,255,0,0.2);
+        }
+
+        .calendar-day.selected {
+            border-color: #00ff00;
+            background: rgba(0,255,0,0.2);
+            box-shadow: 0 0 20px rgba(0,255,0,0.4);
+        }
+        .calendar-day.selected::after { 
+            content: " ✔"; 
+            display: block; 
+            font-size: 1rem; 
+            color: #00ff00; 
+            margin-top: 5px; 
+            text-shadow: 0 0 5px #000;
+        }
+
+        /* Administrative Core Color Rules Override Matrix */
+        .calendar-day.booked-admin {
+            background: linear-gradient(135deg, #ff8c00, #ff5722) !important;
+            border: 2px solid #ffcc80 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.6) !important;
+        }
+
+        .calendar-day.booked-user {
+            border: 2px solid #ff0000 !important;
+            background: rgba(255, 0, 0, 0.15) !important;
+            cursor: not-allowed !important;
+        }
+
+        .cross-container {
+            color: #ff0000;
+            font-size: 1.4rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        .booked-subtext-blue {
+            color: #00e5ff !important;
+            font-size: 0.6rem !important;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: block;
+            margin-top: 4px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+            line-height: 1.2;
+        }
+
+        .blue-calendar {
+            background: linear-gradient(135deg, #000080, #0000FF) !important;
+            padding: 30px;
+            border-radius: 16px;
+            margin: 30px 0;
+            box-shadow: 0 15px 40px rgba(0,0,255,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .blue-calendar .calendar-day:not(.empty) { background: rgba(255,255,255,0.05); }
+
+        /* =========================================
+           FORMS & BUTTONS
+        ========================================= */
+        .form-group { margin-bottom: 25px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #d500f9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 16px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #d500f9;
+            outline: none;
+            box-shadow: 0 0 20px rgba(213,0,249,0.3);
+            background: rgba(0,0,0,0.8);
+        }
+        select.form-control option { background: #1a002c; color: white; }
+
+        /* Faux Password Decorative Button Header Style */
+        .pwd-btn-label {
+            display: inline-block;
+            background: #ff0000;
+            color: #ffffff;
+            font-weight: 800;
+            padding: 10px 25px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.3);
+            font-size: 0.95rem;
+        }
+
+        .success-box {
+            text-align: center;
+            padding: 50px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 2px solid #00ff00;
+            border-radius: 16px;
+            margin: 40px 0;
+            box-shadow: 0 0 30px rgba(0,255,0,0.2);
+        }
+        .success-box h2 { color: #00ff00; margin-bottom: 20px; font-size: 2.5rem; text-shadow: 0 0 10px rgba(0,255,0,0.5); }
+
+        .email-preview {
+            background: #ffffff;
+            color: #222;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-top: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; margin-top: 30px;}
+        
+        .gallery-spot { 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            height: 220px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: transparent; 
+            transition: all 0.4s ease; 
+            position: relative; 
+            overflow: hidden; 
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+        }
+        .gallery-spot:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(213,0,249,0.5);
+            border-color: #d500f9;
+            z-index: 2;
+        }
+
+        /* =========================================
+           LIGHTBOX MODAL FOR FULL SCREEN IMAGES
+        ========================================= */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .lightbox-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox-modal img {
+            max-width: 90%;
+            max-height: 85%;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(213, 0, 249, 0.4);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .lightbox-modal.active img {
+            transform: scale(1);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #ffffff;
+            font-size: 3.5rem;
+            font-weight: 300;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            line-height: 1;
+        }
+        .lightbox-close:hover {
+            color: #d500f9;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .mini-events-container { grid-template-columns: 1fr; }
+            .nav-tabs { gap: 5px; font-size: 0.8rem; }
+            .package-grid { grid-template-columns: 1fr; }
+            .carousel-container { height: 300px; }
+            .calendar-grid { font-size: 0.9rem; }
+            .calendar-day { padding: 10px; font-size: 1rem; }
+            .lightbox-close { top: 20px; right: 25px; font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="side-socials">
+        <a href="https://www.instagram.com/blessed_venue" target="_blank" class="side-icon side-insta" title="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://wa.me/07884485545" target="_blank" class="side-icon side-whatsapp" title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- Reconstructed Two-Line Header Structure -->
+    <header style="flex-direction: column; align-items: stretch; gap: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <ul class="nav-tabs">
+                <li class="tab-link active" onclick="switchTab('home')">Home</li>
+                <li class="tab-link" onclick="switchTab('about')">About Us</li>
+                <li class="tab-link" onclick="switchTab('events')">Events</li>
+                <li class="tab-link" onclick="switchTab('calendar-tab')">Calendar</li>
+                <li class="tab-link" onclick="switchTab('booking')">Booking Form</li>
+                <li class="tab-link" onclick="switchTab('contacts')">Contacts</li>
+                <li class="tab-link" onclick="switchTab('gallery')">Gallery</li>
+            </ul>
+            <div class="logo-placeholder" style="margin-bottom: 0;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <ul class="nav-tabs">
+                <!-- Administration Tab Inserted Prominently with Distinct Color Settings -->
+                <li class="tab-link admin-tab-btn" onclick="switchTab('admin-panel')">
+                    Administration Tab
+                    <span class="staff-subtext" id="staff-subtext-label">(LOG IN FOR STAFF ONLY)</span>
+                </li>
+            </ul>
+            <div style="width: 90px; display: flex; justify-content: center;">
+                <span style="font-size: 0.85rem; letter-spacing: 2px; font-weight: 800; color: #fff; text-shadow: 0 0 10px #d500f9; text-align: center;">BLESSED VENUE</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- =========================================
+           ADMINISTRATION TAB PANEL COMPONENT
+        ========================================= */ -->
+        <div id="admin-panel" class="tab-content glass-panel" style="padding: 40px;">
+            <!-- Authentication Gate Panel Layer -->
+            <div id="admin-login-wrapper" style="display: block;">
+                <h2 style="font-size: 2.3rem; color: #ff8c00; margin-bottom: 25px; text-shadow: 0 0 10px rgba(255,140,0,0.3);">Secure Gate: Administrative Access</h2>
+                <p style="margin-bottom: 30px; color: rgba(255,255,255,0.7); line-height: 1.6;">Authentication is mandatory to interact with internal calendar parameters, view active metadata clusters, or override reservation configurations.</p>
+                
+                <div class="form-group" style="max-width: 480px;">
+                    <!-- Red Header Password Button Construct Element -->
+                    <div class="pwd-btn-label">PASSWORD</div>
+                    <div style="margin-top: 5px;">
+                        <input type="password" id="admin-secret-keyfield" class="form-control" placeholder="••••••••" style="letter-spacing: 2px;">
+                    </div>
+                    <!-- Error response notification box -->
+                    <div id="admin-error-box" style="display: none; color: #ff0000; font-weight: bold; margin-top: 15px; font-size: 1.1rem; text-transform: uppercase;">incorrect password</div>
+                </div>
+                
+                <button class="btn-rect-green" style="background: #ff0000; color: #fff; box-shadow: 0 0 15px rgba(255,0,0,0.4);" onclick="executeAdminLogin()">Verify System Credentials</button>
+            </div>
+
+            <!-- Authorized Control Center Panel View Layer -->
+            <div id="admin-dashboard-wrapper" style="display: none;">
+                <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 25px; flex-wrap: wrap;">
+                    <button class="btn-rect-green" style="background: #00ff00; color: #000; cursor: default; margin: 0; box-shadow: 0 0 15px rgba(0,255,0,0.4);">SIGNED IN</button>
+                    <button class="btn-rect-green" style="background: #ff0000; color: #fff; cursor: pointer; margin: 0; box-shadow: 0 0 15px rgba(255,0,0,0.4);" onclick="executeAdminLogout()">LOG OUT</button>
+                </div>
+
+                <h3 style="font-size: 2rem; color: #ff8c00; margin-bottom: 15px;">Live Bookings Console & Local Storage Schema</h3>
+                <p style="color: rgba(255,255,255,0.8); font-size: 1.1rem; line-height: 1.7; margin-bottom: 25px;">
+                    The dashboard maps persistent structures inside the memory layer (<strong style="color: #00ff00;">1.00 GB virtual client matrix enabled</strong>). 
+                    To book or unbook any block, navigate smoothly into either the general <strong>Calendar</strong> or the active <strong>Booking Form</strong> tabs and click any date cell directly.
+                </p>
+
+                <div class="glass-panel" style="padding: 30px; border-left: 5px solid #ff8c00;">
+                    <h4 style="font-size: 1.3rem; margin-bottom: 15px; color: #ffd700;"><i class="fas fa-list-ul"></i> Listed Dates Currently Booked:</h4>
+                    <ul id="admin-date-registry-view" style="display: flex; flex-wrap: wrap; gap: 12px; list-style: none; margin-top: 15px;">
+                        <!-- JavaScript injects booked keys dynamically here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="home" class="tab-content active">
+            <div class="carousel-container" id="home-carousel">
+                <div class="carousel-slide slide1 active"></div>
+                <div class="carousel-slide slide2"></div>
+                <div class="carousel-slide slide3"></div>
+                <div class="carousel-slide slide4"></div>
+                <div class="carousel-slide slide5"></div>
+            </div>
+
+            <div class="package-grid">
+                <div class="package-card glass-panel pkg-normal">
+                    <h2 class="pkg-title-orange">NORMAL WEDDING PACKAGE</h2>
+                    <span class="big-bold-price">1,800,000 RWF <span style="font-size:1.2rem; font-weight:400; color:#aaa;">EXCL VAT</span></span>
+                    <p style="font-weight: 800; margin-top: 20px; color:#d500f9; text-transform:uppercase;">Services Included:</p>
+                    <ul class="services-list">
+                        <li>400 plastic chairs</li>
+                        <li>Podium included</li>
+                        <li>House for Gutwikurura</li>
+                        <li>Automatic backup generator</li>
+                        <li>Clean-functional restrooms</li>
+                        <li>40 round tables</li>
+                        <li>Storage facility on site</li>
+                        <li>Space for pre-wedding photos</li>
+                        <li>Security included</li>
+                        <li>300 PARKED VEHICLES</li>
+                        <li>5 AC GENERATORS</li>
+                        <li>GARDEN FOR PRE WEEDING PHOTOS</li>
+                    </ul>
+                    <button class="btn-red" onclick="switchTab('booking')">Book Now</button>
+                </div>
+
+                <div class="package-card glass-panel pkg-advanced">
+                    <h2 class="pkg-title-red">ADVANCED WEDDING PACKAGE</h2>
+                    <span class="big-bold-price">3,500,000 RWF <span style="font-size:1.2rem; font-weight:400; color:#aaa;">EXCL VAT</span></span>
+                    <p style="font-weight: 800; margin-top: 20px; color:#d500f9; text-transform:uppercase;">Services Included:</p>
+                    <ul class="services-list">
+                        <li>400 plastic & 400 medallion chairs</li>
+                        <li>Podium included</li>
+                        <li>House for clean gutwikurura</li>
+                        <li>Automatic backup generator</li>
+                        <li>Clean functional restrooms</li>
+                        <li>40 round tables</li>
+                        <li>Storage facility on site</li>
+                        <li>Pre-wedding photos</li>
+                        <li>Security included</li>
+                        <li>Full decoration included</li>
+                        <li>300 PARKED VEHICLES</li>
+                        <li>5 AC GENERATORS</li>
+                        <li>GARDEN FOR PRE WEEDING PHOTOS</li>
+                        <li>Free Event Protocol Team</li>
+                    </ul>
+                    <button class="btn-red" onclick="switchTab('calendar-tab')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="mini-events-container">
+                <div class="mini-block bg-blue-write-white glass-panel">
+                    <div class="circle-pic-placeholder" style="background-image: url('https://i.ibb.co/6RsPsGQH/Whats-App-Image-2026-05-26-at-10-52-08-AM-1.jpg'); color: transparent;"></div>
+                    <h4 style="font-size: 2rem; font-weight:800; margin-bottom: 15px; text-transform:uppercase;">Anniversary</h4>
+                    <p style="font-size: 2.2rem; font-weight:900; margin-bottom: 25px;">350,000 RWF</p>
+                    <button class="btn-red" onclick="switchTab('booking')">Book Now</button>
+                </div>
+
+                <div class="mini-block bg-dark-green-text glass-panel">
+                    <div class="circle-pic-placeholder" style="background-image: url('https://i.ibb.co/mC8brjjk/Whats-App-Image-2026-05-26-at-10-52-07-AM.jpg'); color: transparent;"></div>
+                    <h4 class="text-green" style="font-size: 2rem; font-weight:800; margin-bottom: 15px; text-transform:uppercase;">Bridal Shower</h4>
+                    <p class="text-green" style="font-size: 2.2rem; font-weight:900; margin-bottom: 25px;">300,000 RWF</p>
+                    <button class="btn-red" onclick="switchTab('booking')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <div class="marquee-box"><img src="https://i.ibb.co/1G6x4GSw/Whats-App-Image-2026-05-26-at-4-32-31-AM.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 1"></div>
+                    <div class="marquee-box"><img src="https://i.ibb.co/99937CxQ/Whats-App-Image-2026-05-26-at-4-23-49-AM-1.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 2"></div>
+                    <div class="marquee-box"><img src="https://i.ibb.co/JWVK84YS/Whats-App-Image-2026-05-18-at-10-47-15-AM.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 3"></div>
+                    <div class="marquee-box"><img src="https://i.ibb.co/gbT0x0Sb/Whats-App-Image-2026-05-26-at-4-34-29-AM.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 4"></div>
+                    <div class="marquee-box"><img src="https://i.ibb.co/v6DPfnh5/Whats-App-Image-2026-05-28-at-2-02-55-AM.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 5"></div>
+                    <div class="marquee-box"><img src="https://i.ibb.co/1G6x4GSw/Whats-App-Image-2026-05-26-at-4-32-31-AM.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 1"></div>
+                    <div class="marquee-box"><img src="https://i.ibb.co/99937CxQ/Whats-App-Image-2026-05-26-at-4-23-49-AM-1.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 2"></div>
+                    <div class="marquee-box"><img src="https://i.ibb.co/JWVK84YS/Whats-App-Image-2026-05-18-at-10-47-15-AM.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 3"></div>
+                    <div class="marquee-box"><img src="https://i.ibb.co/gbT0x0Sb/Whats-App-Image-2026-05-26-at-4-34-29-AM.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 4"></div>
+                    <div class="marquee-box"><img src="https://i.ibb.co/v6DPfnh5/Whats-App-Image-2026-05-28-at-2-02-55-AM.jpg" style="position:absolute; width:100%; height:100%; object-fit:cover; z-index:10;" alt="Moving 5"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="about" class="tab-content glass-panel" style="padding: 40px;">
+            <div class="image-placeholder static-banner has-bg" style="background-image: url('https://i.ibb.co/ds6BpX19/Whats-App-Image-2026-05-29-at-3-13-24-PM-1.jpg');"></div>
+            
+            <h2 style="font-size: 2.8rem; font-weight: 800; color: #00ff00; margin: 30px 0; text-shadow: 0 0 15px rgba(0,255,0,0.4); text-transform: uppercase;">Discover Blessed Venue-Nyamata Hall</h2>
+            
+            <p class="event-text" style="margin-bottom: 25px;">Our event professionals are dedicated to providing exceptional services for engaged couples and hosts searching for the right premium venue at the right price. At Blessed Venue Multi-Purposed Hall, where your satisfaction is our concern, we provide you with stress-free event planning, meticulous detail management, and one-on-one highly experienced consultation support. Whether you are planning an intimate gathering or a grand celebration, we are here to serve.</p>
+            
+            <p class="event-text" style="font-weight: 600; margin-bottom: 30px; color: #ffd700;">Management</p>
+
+            <div class="glass-panel" style="padding: 30px; border-left: 5px solid #d500f9; background: rgba(213,0,249,0.05); margin-bottom: 30px;">
+                <h3 style="font-size: 1.6rem; margin-bottom: 20px; color: #00ff00;"><i class="far fa-address-card"></i> Contact & Location</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 12px;">📍 <strong>Location:</strong> Road, RN5, Nyamata</p>
+                <p style="font-size: 1.15rem; margin-bottom: 12px;">📸 <strong>Instagram:</strong> @blessed_venue</p>
+                <p style="font-size: 1.15rem;">📞 <strong>Phone/WhatsApp:</strong> 0788448554</p>
+            </div>
+
+            <div class="image-placeholder static-banner has-bg" style="background-image: url('https://i.ibb.co/ds6BpX19/Whats-App-Image-2026-05-29-at-3-13-24-PM-1.jpg');"></div>
+        </div>
+
+        <div id="events" class="tab-content glass-panel" style="padding: 40px;">
+            <div class="image-placeholder static-banner has-bg" style="background-image: url('https://i.ibb.co/jdZb9yK/Whats-App-Image-2026-06-02-at-5-29-59-AM.jpg');">Top Events Banner</div>
+
+            <h2 style="font-size: 2.5rem; color: #00ff00; margin: 30px 0;">All Events Ceremonies</h2>
+            <p class="event-text">Celebrate your love story or hold professional gatherings in a grand setting designed for unforgettable moments.</p>
+            
+            <div class="blue-title-bar">Wedding Ceremonies</div>
+            <p class="event-text">Celebrate your love story in a grand setting designed for unforgettable moments.</p>
+            <p class="event-text">Blessed Venue provides a stunning, spacious backdrop that easily accommodates everything from your emotional vows to a high-energy reception banquet.</p>
+            <p class="event-text">With its elegant interior layout and ample room for beautiful floral arrangements, the hall ensures your special day is both seamless and breathtaking.</p>
+            <button class="btn-rect-green" onclick="switchTab('contacts')">Contact Us</button>
+
+            <div class="blue-title-bar">Meetings & Conferences</div>
+            <p class="event-text">Elevate your corporate events, seminars, or professional workshops in a distraction-free, professional environment.</p>
+            <p class="event-text">The venue offers a versatile setup that can be structured to support clear presentations, networking sessions, and collaborative group discussions.</p>
+            <p class="event-text">It is the ideal choice for organizations looking to blend comfort, focus, and class for their teams and stakeholders.</p>
+            <button class="btn-rect-green" onclick="switchTab('contacts')">Contact Us</button>
+
+            <div class="blue-title-bar">Birthday Ceremonies</div>
+            <p class="event-text">Whether you are hitting a major milestone or throwing a vibrant themed party, the hall transforms into the ultimate celebration hub.</p>
+            <p class="event-text">There is plenty of space for customizable décor, a dynamic dance floor, and comfortable seating for all your family and friends.</p>
+            <p class="event-text">It is the perfect atmosphere to create lasting memories while celebrating another year of life.</p>
+            <button class="btn-rect-green" onclick="switchTab('contacts')">Contact Us</button>
+
+            <div class="blue-title-bar">Entertainments</div>
+            <p class="event-text">From live music performances and comedy shows to cultural gatherings and community celebrations, the venue is fully equipped to host dynamic social events.</p>
+            <p class="event-text">Its excellent spatial design offers great visibility and room for staging, ensuring that both the performers and the crowd enjoy an immersive, high-energy entertainment experience.</p>
+            <button class="btn-rect-green" onclick="switchTab('contacts')">Contact Us</button>
+        </div>
+
+        <div id="calendar-tab" class="tab-content glass-panel" style="padding: 40px;">
+            <div class="image-placeholder static-banner has-bg" style="background-image: url('https://i.ibb.co/GvwfY67k/Whats-App-Image-2026-05-27-at-8-44-49-AM.jpg');"></div>
+            
+            <h2 style="color: #00ff00; text-align: center; font-size: 2.2rem; margin: 30px 0; text-shadow: 0 0 15px rgba(0,255,0,0.4);">BLESSED VENUE MULTI PURPOSED HALL CALENDAR</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 10px;">Operating hours may shift. Select a Month and Year (2026-2030) to check dates.</p>
+            <p style="text-align: center; font-weight: 800; color: #ff8c00; font-size: 1.2rem;">Click an available date to select it.</p>
+            
+            <div class="calendar-section glass-panel" id="main-calendar-container"></div>
+        </div>
+
+        <div id="booking" class="tab-content glass-panel" style="padding: 40px;">
+            <div class="image-placeholder static-banner has-bg" style="background-image: url('https://i.ibb.co/BVjHMs39/Whats-App-Image-2026-05-27-at-8-08-09-AM.jpg');"></div>
+            
+            <div id="booking-step-1">
+                <h3 style="font-size: 2rem; color: #00ff00; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0,255,0,0.3);">Step 1: Select Your Service Package</h3>
+                <div class="form-group">
+                    <label for="service-selector">Select Event Type:</label>
+                    <select id="service-selector" class="form-control" onchange="enableBlueCalendar()">
+                        <option value="" disabled selected>-- Choose a package --</option>
+                        <option value="ANNIVERSARY">ANNIVERSARY (350,000 RWF)</option>
+                        <option value="BRIDAL SHOWER">BRIDAL SHOWER (300,000 RWF)</option>
+                        <option value="NORMAL WEDDING PACKAGE">NORMAL WEDDING PACKAGE (1,800,000 RWF)</option>
+                        <option value="ADVANCED WEDDING PACKAGE">ADVANCED WEDDING PACKAGE (3,500,000 RWF)</option>
+                    </select>
+                </div>
+
+                <div id="blue-calendar-block" style="display: none; animation: slideUpFade 0.5s ease forwards;">
+                    <h4 style="font-size: 1.5rem; margin: 40px 0 10px 0; color: #fff;">Step 2: Select an Available Date</h4>
+                    <p style="color:#ffd700; font-weight:600;">Operational Hours: All days from 8:00 AM to 9:30 PM</p>
+                    
+                    <div class="blue-calendar" id="booking-calendar-container"></div>
+                </div>
+            </div>
+
+            <div id="booking-step-2" style="display: none; animation: slideUpFade 0.5s ease forwards;">
+                <h3 style="font-size: 2rem; color: #d500f9; margin-bottom: 30px;">Step 3: Client Information</h3>
+                
+                <div class="form-group">
+                    <label>Selected Package:</label>
+                    <input type="text" id="final-pkg" class="form-control" readonly style="color: #00ff00; font-weight: 800; background: rgba(0,255,0,0.1); border-color:#00ff00;">
+                </div>
+                <div class="form-group">
+                    <label>Selected Date:</label>
+                    <input type="text" id="final-date" class="form-control" readonly style="color: #00ff00; font-weight: 800; background: rgba(0,255,0,0.1); border-color:#00ff00;">
+                </div>
+                <div class="form-group"><label>First Name:</label><input type="text" id="f-name" class="form-control" placeholder="John"></div>
+                <div class="form-group"><label>Last Name:</label><input type="text" id="l-name" class="form-control" placeholder="Doe"></div>
+                <div class="form-group"><label>Email:</label><input type="email" id="c-email" class="form-control" placeholder="john@example.com"></div>
+                <div class="form-group"><label>Phone:</label><input type="text" id="c-phone" class="form-control" placeholder="078..."></div>
+                
+                <button class="btn-red" style="margin-top: 20px; font-size:1.5rem; padding: 20px;" onclick="submitBooking()">CONFIRM BOOKING</button>
+            </div>
+
+            <div id="booking-success" style="display: none; animation: slideUpFade 0.5s ease forwards;">
+                <div class="success-box">
+                    <h2>CONGRATULATIONS, THANK YOU!</h2>
+                    <p style="font-size: 1.5rem; font-weight: 600;">YOUR BOOKING IS COMPLETED AND NOW IS PENDING CONFIRMATION.</p>
+                </div>
+                <div class="email-preview">
+                    <p style="color:#666; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:10px;">Simulation: Email Sent to Client</p>
+                    <p><strong>To:</strong> <span id="em-to"></span></p>
+                    <p><strong>Subject:</strong> Pending Confirmation - Blessed Venue</p>
+                    <hr style="margin: 20px 0; border-color: #eee;">
+                    <p>Dear <span id="em-name" style="font-weight:bold;"></span>,</p><br>
+                    <p>Thank you for booking the <strong id="em-pkg" style="color:#d500f9;"></strong> event with Blessed Venue Multi Purposed Hall, scheduled for <strong id="em-date"></strong>.</p><br>
+                    <p>YOUR APPOINTMENT IS CURRENTLY AWAITING CONFIRMATION.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="contacts" class="tab-content glass-panel" style="padding: 40px;">
+            <div class="image-placeholder static-banner has-bg" style="background-image: url('https://i.ibb.co/GvwfY67k/Whats-App-Image-2026-05-27-at-8-44-49-AM.jpg'); margin-bottom: 40px;"></div>
+
+            <h2 style="font-size: 2.5rem; color: #00ff00; margin: 30px 0;">GET IN TOUCH</h2>
+            <p class="event-text">If you would like to see the space in person, walkthroughs and venue tours are available seven days a week.</p>
+            
+            <div class="package-grid" style="margin-top: 40px;">
+                <div class="glass-panel" style="padding: 40px; border-left: 5px solid #d500f9;">
+                    <h3 style="color:#ffd700; font-size:1.8rem; margin-bottom:25px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">CONTACT DETAILS</h3>
+                    <p style="font-size:1.2rem; margin-bottom:15px;"><i class="fas fa-phone" style="color:#00ff00; width:30px;"></i> 0788448554</p>
+                    <p style="font-size:1.2rem; margin-bottom:15px;"><i class="fas fa-envelope" style="color:#00ff00; width:30px;"></i> nzizamakuzadavid@gmail.com</p>
+                    <p style="font-size:1.2rem; margin-bottom:15px; line-height:1.6;"><i class="fas fa-map-marker-alt" style="color:#00ff00; width:30px;"></i> Near La Palisse Nyamata, Opposite to Kayumba Cell<br><span style="margin-left:30px; font-size:1rem; color:#aaa;">Road NR5, Nyamata Road</span></p>
+                    <p style="color:#00ff00; font-weight:800; margin-top:30px; font-size:1.1rem;"><i class="fas fa-clock"></i> OPEN MONDAY - SUNDAY: 8:00 AM TO 9:30 PM</p>
+                </div>
+
+                <div class="glass-panel" style="padding: 20px;">
+                    <p style="font-size:0.9rem; color:#ffd700; text-align:center; margin-bottom:10px; font-weight:600;"><i class="fas fa-search-plus"></i> USE TWO FINGERS TO ZOOM</p>
+                    <div style="width:100%; height:300px; background:rgba(0,0,0,0.5); border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.1);">
+                        <i class="fas fa-map-marked-alt" style="font-size:4rem; color:#d500f9; margin-bottom:15px;"></i>
+                        <p style="font-weight:800; font-size:1.2rem;">Map Integration Spot</p>
+                        <a href="https://maps.app.goo.gl/H2DN7w1LFk1mNad36" target="_blank" style="margin-top:20px; padding:10px 25px; background:linear-gradient(45deg, #0000ff, #d500f9); border-radius:30px; font-weight:bold; letter-spacing:1px;">Open Map</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="gallery" class="tab-content glass-panel" style="padding: 40px;">
+            <div class="image-placeholder static-banner has-bg" style="background-image: url('https://i.ibb.co/ksfxzpxg/Whats-App-Image-2026-05-27-at-9-00-53-AM.jpg'); margin-bottom: 40px;"></div>
+
+            <h2 style="font-size: 2.5rem; color:#00ff00; margin: 30px 0;">Blessed Venue Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/fzT5DSn5/Whats-App-Image-2026-05-28-at-1-22-11-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/whTQbqrC/Whats-App-Image-2026-05-28-at-1-22-14-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/39CMs0fP/Whats-App-Image-2026-05-18-at-5-38-52-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/zWf4fxyp/Whats-App-Image-2026-05-26-at-4-24-40-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/KxXWsVDq/Whats-App-Image-2026-05-26-at-4-34-32-AM.jpg');"></div>
+                
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/cS7Yg5qv/Whats-App-Image-2026-05-26-at-4-28-58-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/v6DPfnh5/Whats-App-Image-2026-05-28-at-2-02-55-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/1G6x4GSw/Whats-App-Image-2026-05-26-at-4-32-31-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/4wPBNn58/Whats-App-Image-2026-05-28-at-1-22-13-AM-2.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/fzT5DSn5/Whats-App-Image-2026-05-28-at-1-22-11-AM.jpg');"></div>
+                
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/rGxYqw1W/Whats-App-Image-2026-05-28-at-1-22-14-AM-1.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/gbT0x0Sb/Whats-App-Image-2026-05-26-at-4-34-29-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/35LCrW4s/Whats-App-Image-2026-05-26-at-4-32-30-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/LdYfdK8L/Whats-App-Image-2026-05-26-at-4-34-32-AM-1.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/RkXXg7JS/Whats-App-Image-2026-05-28-at-2-02-56-AM.jpg');"></div>
+                
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/4Z6QjPD3/Whats-App-Image-2026-05-28-at-1-22-23-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/x8KRhB8M/Whats-App-Image-2026-05-26-at-4-32-30-AM-1.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/chfytXVX/Whats-App-Image-2026-05-28-at-1-22-12-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/JWVK84YS/Whats-App-Image-2026-05-18-at-10-47-15-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/W49nBnz2/Whats-App-Image-2026-05-26-at-4-34-31-AM.jpg');"></div>
+                
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/ntjpYCM/Whats-App-Image-2026-05-18-at-2-29-36-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/9HJRy5YJ/Whats-App-Image-2026-05-28-at-2-02-55-AM-1.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/YTWnRdMG/Whats-App-Image-2026-05-28-at-2-02-58-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/vx3jYcT4/Whats-App-Image-2026-05-28-at-1-22-19-AM.jpg');"></div>
+                <div class="gallery-spot" style="background-image: url('https://i.ibb.co/8wzcQv8/Whats-App-Image-2026-05-28-at-2-02-54-AM.jpg');"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="gallery-lightbox" class="lightbox-modal" onclick="closeLightbox(event)">
+        <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+        <img id="lightbox-img" src="" alt="Full Screen Display">
+    </div>
+
+    <script>
+        // =========================================
+        // ADMINISTRATIVE STATE LOGIC ARCHITECTURE
+        // =========================================
+        let isAdminLoggedIn = false;
+        // Allocating tracking vectors mapped securely to client side persistent state storage (1GB Allocation Emulation)
+        let bookedDatesRegistry = JSON.parse(localStorage.getItem('blessed_venue_booked_dates')) || [];
+
+        function executeAdminLogin() {
+            const secretInputField = document.getElementById('admin-secret-keyfield');
+            const errorElement = document.getElementById('admin-error-box');
+            
+            if (secretInputField.value === "Kigali@123") {
+                isAdminLoggedIn = true;
+                errorElement.style.display = 'none';
+                secretInputField.value = '';
+                
+                // Toggle UI state within the administration view container
+                document.getElementById('admin-login-wrapper').style.display = 'none';
+                document.getElementById('admin-dashboard-wrapper').style.display = 'block';
+                document.getElementById('staff-subtext-label').style.display = 'none';
+                
+                // Refresh system interfaces globally
+                rebuildAllCalendarContainers();
+                renderAdminRegistryOverview();
+            } else {
+                errorElement.style.display = 'block';
+            }
+        }
+
+        function executeAdminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin-login-wrapper').style.display = 'block';
+            document.getElementById('admin-dashboard-wrapper').style.display = 'none';
+            document.getElementById('staff-subtext-label').style.display = 'block';
+            
+            rebuildAllCalendarContainers();
+            switchTab('home');
+        }
+
+        function renderAdminRegistryOverview() {
+            const registryContainer = document.getElementById('admin-date-registry-view');
+            if(!registryContainer) return;
+            
+            if(bookedDatesRegistry.length === 0) {
+                registryContainer.innerHTML = `<li style="color: rgba(255,255,255,0.4); font-style: italic;">No dates flagged as reserved inside database storage layer.</li>`;
+                return;
+            }
+            
+            registryContainer.innerHTML = bookedDatesRegistry.map(dateKey => `
+                <li style="background: rgba(255,140,0,0.15); border: 1px solid #ff8c00; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #fff; font-weight: 600;">${dateKey}</span>
+                    <span style="color: #ff3333; cursor: pointer; font-weight: 800; font-size: 1.1rem;" onclick="removeRegistryKeyDirectly('${dateKey}')" title="Revoke Booking">&times;</span>
+                </li>
+            `).join('');
+        }
+
+        function removeRegistryKeyDirectly(dateKey) {
+            bookedDatesRegistry = bookedDatesRegistry.filter(item => item !== dateKey);
+            localStorage.setItem('blessed_venue_booked_dates', JSON.stringify(bookedDatesRegistry));
+            rebuildAllCalendarContainers();
+            renderAdminRegistryOverview();
+        }
+
+        function rebuildAllCalendarContainers() {
+            generateCalendarHTML('main-calendar-container', false);
+            generateCalendarHTML('booking-calendar-container', true);
+        }
+
+        // =========================================
+        // TAB NAVIGATION LOGIC
+        // =========================================
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            // Updated array structure to match rearranged DOM link order for seamless class tracking
+            const tabs = ['home', 'about', 'events', 'calendar-tab', 'booking', 'contacts', 'gallery', 'admin-panel'];
+            document.querySelectorAll('.tab-link')[tabs.indexOf(tabId)].classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Home Carousel
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('#home-carousel .carousel-slide');
+        setInterval(() => {
+            slides[slideIndex].classList.remove('active');
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].classList.add('active');
+        }, 4000);
+
+        // =========================================
+        // DYNAMIC CALENDAR ENGINE (2026 - 2030)
+        // =========================================
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        
+        function generateCalendarHTML(targetId, isBookingContext = false) {
+            const container = document.getElementById(targetId);
+            if(!container) return;
+            
+            let selMonth = container.getAttribute('data-month') ? parseInt(container.getAttribute('data-month')) : 5; 
+            let selYear = container.getAttribute('data-year') ? parseInt(container.getAttribute('data-year')) : 2026;
+
+            let html = `<div class="calendar-controls">
+                <select onchange="updateCalendar('${targetId}', this.value, ${selYear}, ${isBookingContext})">`;
+            
+            monthNames.forEach((month, index) => {
+                html += `<option value="${index}" ${selMonth === index ? 'selected' : ''}>${month}</option>`;
+            });
+            
+            html += `</select><select onchange="updateCalendar('${targetId}', ${selMonth}, this.value, ${isBookingContext})">`;
+            
+            for(let y = 2026; y <= 2030; y++) {
+                html += `<option value="${y}" ${selYear === y ? 'selected' : ''}>${y}</option>`;
+            }
+            
+            html += `</select></div><div class="calendar-grid">
+                <div class="calendar-day-header">Sun</div><div class="calendar-day-header">Mon</div>
+                <div class="calendar-day-header">Tue</div><div class="calendar-day-header">Wed</div>
+                <div class="calendar-day-header">Thu</div><div class="calendar-day-header">Fri</div>
+                <div class="calendar-day-header">Sat</div>`;
+
+            const firstDay = new Date(selYear, selMonth, 1).getDay();
+            const daysInMonth = new Date(selYear, selMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) {
+                html += `<div class="calendar-day empty"></div>`;
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const fullDateStr = `${monthNames[selMonth]} ${day}, ${selYear}`;
+                const isCellBooked = bookedDatesRegistry.includes(fullDateStr);
+                
+                let conditionalStateClass = "";
+                let internalCellStructure = `<span>${day}</span>`;
+                
+                if (isCellBooked) {
+                    if (isAdminLoggedIn) {
+                        conditionalStateClass = " booked-admin";
+                    } else {
+                        conditionalStateClass = " booked-user";
+                        internalCellStructure = `
+                            <span>${day}</span>
+                            <span class="cross-container">✖</span>
+                            <span class="booked-subtext-blue">the date is booked</span>
+                        `;
+                    }
+                }
+
+                html += `<div class="calendar-day${conditionalStateClass}" onclick="handleDateSelection(this, '${fullDateStr}', ${isBookingContext})">${internalCellStructure}</div>`;
+            }
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        window.updateCalendar = function(targetId, newMonth, newYear, isBookingContext) {
+            const container = document.getElementById(targetId);
+            container.setAttribute('data-month', newMonth);
+            container.setAttribute('data-year', newYear);
+            generateCalendarHTML(targetId, isBookingContext);
+        };
+
+        window.handleDateSelection = function(dayElement, dateString, isBookingContext) {
+            // Administrative Interactive Access Toggling Route Block
+            if (isAdminLoggedIn) {
+                if (bookedDatesRegistry.includes(dateString)) {
+                    // Unbook date if already active
+                    bookedDatesRegistry = bookedDatesRegistry.filter(entry => entry !== dateString);
+                } else {
+                    // Inject booking state parameter row
+                    bookedDatesRegistry.push(dateString);
+                }
+                localStorage.setItem('blessed_venue_booked_dates', JSON.stringify(bookedDatesRegistry));
+                rebuildAllCalendarContainers();
+                renderAdminRegistryOverview();
+                return;
+            }
+
+            // Normal Client UI Exception Route Handling Block
+            if (bookedDatesRegistry.includes(dateString)) {
+                alert("The selected reservation window is locked because the date is booked. Kindly look for an alternative open date on the grid.");
+                return;
+            }
+
+            const siblingDays = dayElement.parentElement.querySelectorAll('.calendar-day');
+            siblingDays.forEach(day => day.classList.remove('selected'));
+            dayElement.classList.add('selected');
+
+            if(isBookingContext) {
+                document.getElementById('final-date').value = dateString;
+                setTimeout(() => {
+                    document.getElementById('booking-step-1').style.display = 'none';
+                    document.getElementById('booking-step-2').style.display = 'block';
+                }, 400); 
+            }
+        };
+
+        // =========================================
+        // INITIALIZATION & GALLERY LIGHTBOX ENGINE
+        // =========================================
+        window.onload = () => {
+            rebuildAllCalendarContainers();
+            renderAdminRegistryOverview();
+            
+            // Loop through all gallery items and attach full-screen viewer setup
+            document.querySelectorAll('.gallery-spot').forEach(spot => {
+                spot.addEventListener('click', function() {
+                    const dynamicUrl = this.style.backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+                    openLightbox(dynamicUrl);
+                });
+            });
+        };
+
+        function openLightbox(imageUrl) {
+            const modal = document.getElementById('gallery-lightbox');
+            const modalImg = document.getElementById('lightbox-img');
+            modalImg.src = imageUrl;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Halt underlying scrolling
+        }
+
+        function closeLightbox(e) {
+            // Dismiss full screen view only if clicking close handle or dim overlay backdrop
+            if (e.target.id === 'gallery-lightbox' || e.target.classList.contains('lightbox-close')) {
+                const modal = document.getElementById('gallery-lightbox');
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Re-enable background scrolling
+            }
+        }
+
+        // =========================================
+        // BOOKING FORM LOGIC
+        // =========================================
+        function enableBlueCalendar() {
+            document.getElementById('blue-calendar-block').style.display = 'block';
+            document.getElementById('booking-step-2').style.display = 'none';
+            document.getElementById('final-pkg').value = document.getElementById('service-selector').value;
+        }
+
+        function submitBooking() {
+            const fName = document.getElementById('f-name').value.trim();
+            const lName = document.getElementById('l-name').value.trim();
+            const email = document.getElementById('c-email').value.trim();
+            const phone = document.getElementById('c-phone').value.trim();
+            
+            if(!fName || !lName || !email || !phone) {
+                alert('Please fill out all client details.');
+                return;
+            }
+            
+            document.getElementById('em-to').innerText = email;
+            document.getElementById('em-name').innerText = fName + ' ' + lName;
+            document.getElementById('em-pkg').innerText = document.getElementById('final-pkg').value;
+            document.getElementById('em-date').innerText = document.getElementById('final-date').value;
+            
+            document.getElementById('booking-step-2').style.display = 'none';
+            document.getElementById('booking-success').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
